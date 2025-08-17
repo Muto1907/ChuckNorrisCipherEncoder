@@ -3,14 +3,57 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
+    static final String MSG_PROMPT = "Please input operation (encode/decode/exit):";
+    static final String MSG_INPUTSTR = "Input string:";
+    static final String MSG_INPUTENCSTR = "Input encoded string:";
+    static final String MSG_ENCODEDSTR = "Encoded string:";
+    static final String MSG_DECODEDSTR = "Decoded string:";
+    static final String MSG_INVALID = "Encoded string is not valid.";
+    static final String MSG_BYE = "Bye!";
+    static final String ENCODE = "encode";
+    static final String DECODE = "decode";
+    static final String EXIT = "exit";
+
+    public static String noSuchOperation(String operation){
+        return "There is no '" + operation + "' operation";
+    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Input encoded string:");
-        String input = scanner.nextLine();
-        System.out.println("\nThe result:");
-        String binary = decodeChuckNorris(input);
-        char[] binaryChars = decodeBinarytoASCII(binary);
-        System.out.println(String.valueOf(binaryChars));
+        while (true){
+            System.out.println(MSG_PROMPT);
+            String operation = scanner.nextLine().trim();
+            switch (operation){
+                case ENCODE:
+                    System.out.println(MSG_INPUTSTR);
+                    System.out.println(MSG_ENCODEDSTR);
+                    System.out.println(ChuckCodec.encode(scanner.nextLine()));
+                    break;
+                case DECODE:
+                    StringBuilder out = new StringBuilder();
+                    System.out.println(MSG_INPUTENCSTR);
+                    if(ChuckCodec.tryDecode(scanner.nextLine(), out)){
+                        System.out.println(MSG_DECODEDSTR);
+                        System.out.println(out.toString());
+                    } else {
+                        System.out.println(MSG_INVALID);
+                    }
+                    break;
+                case EXIT:
+                    System.out.println(MSG_BYE);
+                    return;
+                default:
+                    System.out.println(noSuchOperation(operation));
+            }
+            System.out.println();
+        }
+    }
+
+    public static String toBinary (String input){
+        StringBuilder binary = new StringBuilder();
+        for (char c : input.toCharArray()){
+            binary.append(String.format("%7s",Integer.toBinaryString(c)).replace(" ", "0"));
+        }
+        return binary.toString();
     }
 
     public static String decodeChuckNorris(String chuckNorris){
