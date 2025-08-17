@@ -40,6 +40,7 @@ public class Main {
                     break;
                 case EXIT:
                     System.out.println(MSG_BYE);
+                    scanner.close();
                     return;
                 default:
                     System.out.println(noSuchOperation(operation));
