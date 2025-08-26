@@ -8,6 +8,18 @@ public class ChuckCodec {
     }
 
     public static boolean tryDecode(String s, StringBuilder out) {
+        if (!isEvenLength(s)){
+            return false;
+        }
+        if (!isZerosAndSpaces(s)){
+            return false;
+        }
+        String bin = unaryToBinary(s);
+        if (bin == null){
+            return false;
+        }
+        String result = binaryToAscii(bin);
+        out.append(result);
         return true;
     }
 
@@ -40,14 +52,39 @@ public class ChuckCodec {
         return unary.toString();
     }
 
+    private static boolean isEvenLength(String s){
+        return s.split(" ").length % 2 == 0;
+    }
+
     private static boolean isZerosAndSpaces(String s){
-        return false;
+        return s.matches("[ 0]+");
     }
 
     private static String unaryToBinary(String unary){
-        return "";
+        StringBuilder result = new StringBuilder();
+        String literal;
+        String[] arr = unary.split(" ");
+        for (int i = 0; i < arr.length; i += 2){
+            if(arr[i].equals("0")){
+                literal = "1";
+            } else if (arr[i].equals("00")){
+                literal = "0";
+            } else {
+                return null;
+            }
+            result.append(literal.repeat(arr[i+1].length()));
+        }
+        if (result.length() % 7 != 0){
+            return null;
+        }
+        return result.toString();
     }
+
     private static String binaryToAscii(String bin){
-        return "";
+        char[] result = new char[bin.length() / 7];
+        for (int i = 0; i < bin.length(); i += 7){
+            result[i/7] = (char) Integer.parseInt(bin.substring(i, i + 7), 2);
+        }
+        return String.valueOf(result);
     }
 }

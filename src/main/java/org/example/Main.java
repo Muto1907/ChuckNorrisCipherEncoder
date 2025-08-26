@@ -35,7 +35,7 @@ public class Main {
                     System.out.println(MSG_INPUTENCSTR);
                     if(ChuckCodec.tryDecode(scanner.nextLine(), out)){
                         System.out.println(MSG_DECODEDSTR);
-                        System.out.println(out.toString());
+                        System.out.println(out);
                     } else {
                         System.out.println(MSG_INVALID);
                     }
@@ -49,32 +49,6 @@ public class Main {
             }
             System.out.println();
         }
-    }
-
-
-    public static String decodeChuckNorris(String chuckNorris){
-        StringBuilder result = new StringBuilder();
-
-        String[] arr = chuckNorris.split(" ");
-
-        for (int i = 0; i < arr.length; i+= 2){
-            String literal;
-            if (arr[i].length() == 1) {
-                literal = "1";
-            } else {
-                literal = "0";
-            }
-            result.append(literal.repeat(arr[i+1].length()));
-        }
-        return result.toString();
-    }
-
-    public static char[] decodeBinarytoASCII(String binary){
-        char[] result = new char[binary.length() / 7];
-        for (int i = 0; i < binary.length(); i += 7){
-            result[i/7] = (char) Integer.parseInt(binary.substring(i, i + 7), 2);
-        }
-        return result;
     }
 
 }
