@@ -8,13 +8,18 @@ public class ChuckCodec {
     }
 
     public static boolean tryDecode(String s, StringBuilder out) {
-        if (!isEvenLength(s)){
+        out.setLength(0);
+        String[] tokens = s.trim().split("\\s+");
+        if (s.isEmpty()){
+            return false;
+        }
+        if (tokens.length % 2 != 0){
             return false;
         }
         if (!isZerosAndSpaces(s)){
             return false;
         }
-        String bin = unaryToBinary(s);
+        String bin = unaryToBinary(tokens);
         if (bin == null){
             return false;
         }
@@ -52,27 +57,23 @@ public class ChuckCodec {
         return unary.toString();
     }
 
-    private static boolean isEvenLength(String s){
-        return s.split(" ").length % 2 == 0;
-    }
 
     private static boolean isZerosAndSpaces(String s){
         return s.matches("[ 0]+");
     }
 
-    private static String unaryToBinary(String unary){
+    private static String unaryToBinary(String[] tokens){
         StringBuilder result = new StringBuilder();
         String literal;
-        String[] arr = unary.split(" ");
-        for (int i = 0; i < arr.length; i += 2){
-            if(arr[i].equals("0")){
+        for (int i = 0; i < tokens.length; i += 2){
+            if(tokens[i].equals("0")){
                 literal = "1";
-            } else if (arr[i].equals("00")){
+            } else if (tokens[i].equals("00")){
                 literal = "0";
             } else {
                 return null;
             }
-            result.append(literal.repeat(arr[i+1].length()));
+            result.append(literal.repeat(tokens[i+1].length()));
         }
         if (result.length() % 7 != 0){
             return null;
