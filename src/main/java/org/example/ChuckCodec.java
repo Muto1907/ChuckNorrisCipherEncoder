@@ -3,7 +3,8 @@ package org.example;
 public class ChuckCodec {
 
     public static String encode(String s) {
-        return "";
+        String binary = to7BitBinary(s);
+        return binaryToUnary(binary);
     }
 
     public static boolean tryDecode(String s, StringBuilder out) {
@@ -11,7 +12,11 @@ public class ChuckCodec {
     }
 
     private static String to7BitBinary(String s){
-        return "";
+        StringBuilder binary = new StringBuilder();
+        for (char c : s.toCharArray()){
+            binary.append(String.format("%7s", Integer.toBinaryString(c)).replace(" ", "0"));
+        }
+        return binary.toString();
     }
 
     private static String binaryToUnary(String bin){

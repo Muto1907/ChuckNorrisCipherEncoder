@@ -49,13 +49,6 @@ public class Main {
         }
     }
 
-    public static String toBinary (String input){
-        StringBuilder binary = new StringBuilder();
-        for (char c : input.toCharArray()){
-            binary.append(String.format("%7s",Integer.toBinaryString(c)).replace(" ", "0"));
-        }
-        return binary.toString();
-    }
 
     public static String decodeChuckNorris(String chuckNorris){
         StringBuilder result = new StringBuilder();
