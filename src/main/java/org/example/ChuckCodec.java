@@ -20,7 +20,24 @@ public class ChuckCodec {
     }
 
     private static String binaryToUnary(String bin){
-        return "";
+        StringBuilder unary = new StringBuilder();
+        int i = 0;
+        while(i < bin.length()){
+            if(bin.charAt(i) == '0'){
+                unary.append("00 0");
+            } else if (bin.charAt(i) == '1'){
+                unary.append("0 0");
+            }
+            i++;
+            while (i < bin.length() && bin.charAt(i-1) == bin.charAt(i)){
+                unary.append("0");
+                i++;
+            }
+            if (i < bin.length()){
+                unary.append(" ");
+            }
+        }
+        return unary.toString();
     }
 
     private static boolean isZerosAndSpaces(String s){

@@ -19,14 +19,16 @@ public class Main {
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        String input;
         while (true){
             System.out.println(MSG_PROMPT);
             String operation = scanner.nextLine().trim();
             switch (operation){
                 case ENCODE:
                     System.out.println(MSG_INPUTSTR);
+                    input = scanner.nextLine();
                     System.out.println(MSG_ENCODEDSTR);
-                    System.out.println(ChuckCodec.encode(scanner.nextLine()));
+                    System.out.println(ChuckCodec.encode(input));
                     break;
                 case DECODE:
                     StringBuilder out = new StringBuilder();
@@ -75,24 +77,4 @@ public class Main {
         return result;
     }
 
-    public static String encodeToChuckNorris(String binary){
-        StringBuilder result = new StringBuilder();
-        int i = 0;
-        while(i < binary.length()){
-            if(binary.charAt(i) == '0'){
-                result.append("00 0");
-            } else if (binary.charAt(i) == '1'){
-                result.append("0 0");
-            }
-            i++;
-            while (i < binary.length() && binary.charAt(i-1) == binary.charAt(i)){
-                result.append("0");
-                i++;
-            }
-            if (i < binary.length()){
-                result.append(" ");
-            }
-        }
-        return result.toString();
-    }
 }
